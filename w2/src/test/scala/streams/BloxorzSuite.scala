@@ -1,11 +1,8 @@
 package streams
 
-import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
+import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
-
-import Bloxorz._
 
 @RunWith(classOf[JUnitRunner])
 class BloxorzSuite extends FunSuite {
@@ -62,17 +59,39 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
-  test("isStanding") {
+  test("isStanding level 1") {
     new Level1 {
       assert(Block(Pos(1,1), Pos(1,1)).isStanding)
       assert(!Block(Pos(1,1), Pos(2,1)).isStanding)
     }
   }
 
-  test("isLegal") {
+  test("isLegal level 1") {
     new Level1 {
       assert(Block(Pos(4,7), Pos(4,8)).isLegal)
       assert(!Block(Pos(5,9), Pos(5,9)).isLegal)
+    }
+  }
+
+  test("neighbours level 1") {
+    new Level1 {
+      val expectedNeighbours = List(
+        (Block(Pos(0,-2), Pos(0,-1)), Left),
+        (Block(Pos(0,1), Pos(0,2)), Right),
+        (Block(Pos(-2,0), Pos(-1,0)), Up),
+        (Block(Pos(1,0), Pos(2,0)), Down)
+      )
+      assert(Block(Pos(0,0), Pos(0,0)).neighbors == expectedNeighbours)
+    }
+  }
+
+  test("legal neighbours level 1") {
+    new Level1 {
+      val expectedLegalNeighbours = List(
+        (Block(Pos(0,1), Pos(0,2)), Right),
+        (Block(Pos(1,0), Pos(2,0)), Down)
+      )
+      assert(Block(Pos(0,0), Pos(0,0)).legalNeighbors == expectedLegalNeighbours)
     }
   }
 

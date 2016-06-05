@@ -131,17 +131,29 @@ trait GameDef {
                else                    dx(2, 1)
 
 
+    private val possibleDirections = List(Left, Right, Up, Down)
+
+    private def move(direction: Move) = direction match {
+      case Left   => this.left
+      case Right  => this.right
+      case Up     => this.up
+      case Down   => this.down
+    }
+
     /**
      * Returns the list of blocks that can be obtained by moving
      * the current block, together with the corresponding move.
      */
-    def neighbors: List[(Block, Move)] = ???
+    def neighbors: List[(Block, Move)] =
+      for {
+        direction <- possibleDirections
+      } yield (this.move(direction), direction)
 
     /**
      * Returns the list of positions reachable from the current block
      * which are inside the terrain.
      */
-    def legalNeighbors: List[(Block, Move)] = ???
+    def legalNeighbors: List[(Block, Move)] = neighbors.filter(_._1.isLegal)
 
     /**
      * Returns `true` if the block is standing.
