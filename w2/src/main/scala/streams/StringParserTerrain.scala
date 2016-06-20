@@ -69,10 +69,10 @@ trait StringParserTerrain extends GameDef {
    */
   def findChar(c: Char, levelVector: Vector[Vector[Char]]): Pos = {
     val position = for {
-      vector <- levelVector
-      position <- vector
+      level <- levelVector
+      position <- level
       if position == c
-    } yield Pos(levelVector.indexOf(vector), vector.indexOf(position))
+    } yield Pos(levelVector.indexOf(level), level.indexOf(position))
 
     position.head
   }
