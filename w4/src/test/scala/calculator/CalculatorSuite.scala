@@ -63,4 +63,17 @@ class CalculatorSuite extends FunSuite with ShouldMatchers {
     assert(Polynomial.computeSolutions(Var(1), Var(1), Var(1), Var(-3))() == Set())
   }
 
+  test("eval") {
+    assert(Calculator.eval(Literal(10D), Map()) == 10D)
+    assert(Calculator.eval(Plus(Literal(10D), Literal(5D)), Map()) == 15D)
+    assert(Calculator.eval(Minus(Literal(10D), Literal(5D)), Map()) == 5D)
+    assert(Calculator.eval(Times(Literal(10D), Literal(5D)), Map()) == 50D)
+    assert(Calculator.eval(Divide(Literal(10D), Literal(5D)), Map()) == 2D)
+    assert(Calculator.eval(Times(Ref("test"), Literal(2D)), Map("test" -> Signal { Literal(7D) })) == 14D)
+    assert(Calculator.eval(Times(Ref("does_not_exists"), Literal(2D)), Map("test" -> Signal { Literal(7D) })).isNaN)
+    assert(Calculator.eval(Times(Ref("cyclic_a"), Literal(2D)),
+      Map(
+        "cyclic_a" -> Signal { Plus(Ref("cyclic_b"), Literal(1D)) },
+        "cyclic_b" -> Signal { Times(Literal(2D), Ref("cyclic_a")) })).isNaN)
+  }
 }
