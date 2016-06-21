@@ -51,4 +51,16 @@ class CalculatorSuite extends FunSuite with ShouldMatchers {
     assert(resultRed2() == "red")
   }
 
+  test("computeDelta") {
+    assert(Polynomial.computeDelta(Var(1), Var(-2), Var(1))() == 0)
+    assert(Polynomial.computeDelta(Var(2), Var(-7), Var(3))() == 25)
+    assert(Polynomial.computeDelta(Var(1), Var(1), Var(1))() == -3)
+  }
+
+  test("computeSolutions") {
+    assert(Polynomial.computeSolutions(Var(1), Var(-2), Var(1), Var(0))() == Set(1))
+    assert(Polynomial.computeSolutions(Var(-1), Var(7), Var(-10), Var(9))() == Set(2, 5))
+    assert(Polynomial.computeSolutions(Var(1), Var(1), Var(1), Var(-3))() == Set())
+  }
+
 }
